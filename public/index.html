@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drive Streamer</title>
+    <style>
+        body { font-family: system-ui; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .file-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+        button { padding: 10px; cursor: pointer; text-align: left; }
+        video { width: 100%; background: #000; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h1>Media Streamer</h1>
+    <div class="file-list" id="fileList">Loading files...</div>
+    
+    <video id="player" controls controlsList="nodownload">
+        Your browser does not support the video tag.
+    </video>
+
+    <script>
+        async function loadFiles() {
+            const response = await fetch('/api/files');
+            const files = await response.json();
+            const list = document.getElementById('fileList');
+            list.innerHTML = '';
+            
+            files.forEach(file => {
+                const btn = document.createElement('button');
+                btn.textContent = file.name;
+                btn.onclick = () => playFile(file.id, file.mimeType);
+                list.appendChild(btn);
+            });
+        }
+
+        function playFile(id, mimeType) {
+            const player = document.getElementById('player');
+            player.src = `/api/stream/${id}`;
+            player.type = mimeType;
+            player.play();
+        }
+
+        loadFiles();
+    </script>
+</body>
+</html>

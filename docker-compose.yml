@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - DRIVE_FOLDER_ID=${DRIVE_FOLDER_ID}
+    volumes:
+      - ./credentials.json:/usr/src/app/credentials.json:ro
+    restart: unless-stopped
