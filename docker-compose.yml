@@ -8,6 +8,5 @@ services:
     environment:
       - PORT=3000
       - DRIVE_FOLDER_ID=${DRIVE_FOLDER_ID}
-    volumes:
-      - ./credentials.json:/usr/src/app/credentials.json:ro
+      - GOOGLE_CREDENTIALS=${GOOGLE_CREDENTIALS}
     restart: unless-stopped
